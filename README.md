@@ -1,10 +1,9 @@
-Aqui está um exemplo de um arquivo `README.md` para o seu jogo:
+# 🎮 Guess Game DevOps
 
----
+Este projeto é um jogo de adivinhação desenvolvido com Flask (backend) e React (frontend), evoluído para uma arquitetura moderna baseada em containers utilizando Docker Compose.
 
-# Jogo de Adivinhação com Flask
+A aplicação permite criar e adivinhar palavras secretas, além de implementar autenticação de usuários e persistência de dados.
 
-Este é um simples jogo de adivinhação desenvolvido utilizando o framework Flask. O jogador deve adivinhar uma senha criada aleatoriamente, e o sistema fornecerá feedback sobre o número de letras corretas e suas respectivas posições.
 
 ## Funcionalidades
 
@@ -12,101 +11,82 @@ Este é um simples jogo de adivinhação desenvolvido utilizando o framework Fla
 - Adivinhe a senha e receba feedback se as letras estão corretas e/ou em posições corretas.
 - As senhas são armazenadas  utilizando base64.
 - As adivinhações incorretas retornam uma mensagem com dicas.
+- Criação de usuario na base de dados
+- Login em um usuario/jogo existente
   
 ## Requisitos
 
-- Python 3.8+
-- Flask
-- Um banco de dados local (ou um mecanismo de armazenamento configurado em `current_app.db`)
-- node 18.17.0
+- Docker
+- Docker Compose
+- Git
 
 ## Instalação
 
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/fams/guess_game.git
+   git clone https://github.com/VictorH777/guess-game-devops
    cd guess-game
    ```
 
-2. Crie um ambiente virtual e ative-o:
+2. Rodar aplicação:
 
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # Linux/Mac
-   venv\Scripts\activate  # Windows
-   ```
+  docker-compose up --build
 
-3. Instale as dependências:
+3. Acessar a aplicação
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+    Abra no navegador:
+        http://localhost:8080
 
-4. Configure o banco de dados com as variáveis de ambiente no arquivo start-backend.sh
-    1. Para sqlite
 
-        ```bash
-            export FLASK_APP="run.py"
-            export FLASK_DB_TYPE="sqlite"            # Use SQLITE
-            export FLASK_DB_PATH="caminho/db.sqlite" # caminho do banco
-        ```
+## Arquitetura do sistema
 
-    2. Para Postgres
+A aplicação é composta pelos seguintes serviços:
+### Frontend (React)
 
-        ```bash
-            export FLASK_APP="run.py"
-            export FLASK_DB_TYPE="postgres"       # Use postgres
-            export FLASK_DB_USER="postgres"       # Usuário do banco
-            export FLASK_DB_NAME="postgres"       # Nome do Banco
-            export FLASK_DB_PASSWORD="secretpass" # Senha do banco
-            export FLASK_DB_HOST="localhost"      # Hostname
-            export FLASK_DB_PORT="5432"           # Porta
-        ```
+Interface do usuário
+Consome a API do backend
+Buildado e servido via container
 
-    3. Para DynamoDB
+### Backend (Flask)
 
-        ```bash
-        export FLASK_APP="run.py"
-        export FLASK_DB_TYPE="dynamodb"       # Use postgres
-        export AWS_DEFAULT_REGION="us-east-1" # AWS region
-        export AWS_ACCESS_KEY_ID="FAKEACCESSKEY123456" 
-        export AWS_SECRET_ACCESS_KEY="FakeSecretAccessKey987654321"
-        export AWS_SESSION_TOKEN="FakeSessionTokenABCDEFGHIJKLMNOPQRSTUVXYZ1234567890"
-        ```
+API REST do jogo
+Executa lógica de autenticação (JWT)
+Gerencia persistência de dados
 
-5. Execute o backend
+Executa em múltiplas instâncias:
+backend1
+backend2
 
-   ```bash
-   ./start-backend.sh &
-   ```
+→ Permite balanceamento de carga e escalabilidade horizontal
 
-6. Cuidado! verifique se o seu linux está lendo o arquivo .sh com fim de linha do windows CRLF. Para verificar utilize o vim -b start-backend.sh
+### Banco de Dados (PostgreSQL)
 
-## Frontend
-No diretorio de frontend
+Armazena usuários e jogos
+Persistente através de volume Docker
 
-1. Instale o node com o nvm. Se não tiver o nvm instalado, siga o [tutorial](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)
+### NGINX (Proxy reverso)
+Responsável por:
 
-    ```bash
-    nvm install 18.17.0
-    nvm use 18.17.0
-    # Habilite o yarn
-    corepack enable
-    ```
+Servir o frontend
+Redirecionar chamadas /api
+Balancear carga entre backend1 e backend2
 
-2. Instale as dependências do node com o npm:
+## Autenticação (funcionalidades nova)
 
-    ```bash
-    npm install
-    ```
+Registro de usuário
+Login com token JWT
+Autorização via Bearer Token
 
-3. Exporte a url onde está executando o backend e execute o backend.
+### Persistência
 
-   ```bash
-    export REACT_APP_BACKEND_URL=http://localhost:5000
-    yarn start
-   ```
+Salvar estado do jogo
+Recuperar histórico de jogos
+
+### Histórico
+
+Visualizar jogos salvos
+Dados separados por usuário
 
 ## Como Jogar
 
@@ -142,14 +122,6 @@ Tente adivinhar
 
 - **`Guess`**: Classe responsável por gerenciar a lógica de comparação entre a senha e a tentativa do jogador.
 - **`WrongAttempt`**: Exceção personalizada que é levantada quando a tentativa está incorreta.
-
-
-
-## Melhorias Futuras
-
-- Implementar autenticação de usuário para salvar e carregar jogos.
-- Adicionar limite de tentativas.
-- Melhorar a interface de feedback para as tentativas de adivinhação.
 
 ## Licença
 
