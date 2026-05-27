@@ -1,4 +1,4 @@
-#!/bin/bash
+vim -b start-backend.sh#!/bin/bash
 
 # Define environment variable
 export FLASK_APP="run.py"
