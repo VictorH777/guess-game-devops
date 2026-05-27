@@ -3,6 +3,20 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 const Maker: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [gameId, setGameId] = useState<string>('');
+    const saveGame = async () => {
+        const token = localStorage.getItem('token');
+
+        await fetch('/api/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ data: 'estado do jogo aqui' })
+        });
+
+        alert('Jogo salvo!');
+    };
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -52,15 +66,16 @@ const Maker: React.FC = () => {
 
     return (
         <div>
-            <h1>Create a New Game</h1>
+            <h1>Criar um novo jogo</h1>
             <form onSubmit={handleSubmit}>
                 <label>
-                    Password:
+                    Senha:
                     <input name="passcode" type="text" value={password} onChange={handlePasswordChange} />
                 </label>
-                <button type="submit">Create Game</button>
+                <button type="submit">Criar jogo</button>
             </form>
             {gameId && <p>Game ID: {gameId}</p>}
+            <button onClick={saveGame}>Salvar jogo</button>
         </div>
     );
 };

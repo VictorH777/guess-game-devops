@@ -42,17 +42,17 @@ const Breaker: React.FC = () => {
 
     return (
         <div>
-            <h1>Guess the Word</h1>
+            <h1>Adivinhe a Palavra</h1>
             <form onSubmit={handleSubmit}>
                 <label>
                     Game ID:
                     <input type="text" value={gameId} onChange={handleGameIdChange} />
                 </label>
                 <label>
-                    Your Guess:
+                    Seu palpite:
                     <input type="text" value={guess} onChange={handleGuessChange} />
                 </label>
-                <button type="submit">Submit Guess</button>
+                <button type="submit">Enviar palpite</button>
             </form>
             {error && <p className="error">{error}</p>}
             {result && <p className={result.startsWith('Result: Incorrect') ? 'incorrect' : ''}>{result}</p>}
