@@ -31,7 +31,9 @@ A aplicação permite criar e adivinhar palavras secretas, além de implementar 
 
 2. Rodar aplicação:
 
+  ```bash
   docker-compose up --build
+  ```
 
 3. Acessar a aplicação
 
@@ -72,6 +74,7 @@ Servir o frontend
 Redirecionar chamadas /api
 Balancear carga entre backend1 e backend2
 
+
 ## Autenticação (funcionalidades nova)
 
 Registro de usuário
@@ -88,42 +91,69 @@ Recuperar histórico de jogos
 Visualizar jogos salvos
 Dados separados por usuário
 
-## Como Jogar
-
-### 1. Criar um novo jogo
-
-Acesse a url do frontend http://localhost:3000
-
-Digite uma frase secreta
-
-Envie
-
-Salve o game-id
 
 
-### 2. Adivinhar a senha
+## 🎯 Como Jogar
 
-Acesse a url do frontend http://localhost:3000
+### 🔐 1. Criar usuário e fazer login
 
-Vá para o endponint breaker
+- Acesse a aplicação em:
+    ```bash
+    http://localhost:8080
+    ```
+- Vá até a página de login
+- Registre um novo usuário
+- Faça login para obter acesso completo ao sistema
 
-entre com o game_id que foi gerado pelo Creator
+---
 
-Tente adivinhar
+### 🎮 2. Criar um novo jogo
 
-## Estrutura do Código
+- Na tela principal, insira uma frase secreta
+- Envie o formulário para criar o jogo
+- Um **game_id** será gerado
+- Salve esse ID para usar nas tentativas de adivinhação
 
-### Rotas:
+---
 
-- **`/create`**: Cria um novo jogo. Armazena a senha codificada em base64 e retorna um `game_id`.
-- **`/guess/<game_id>`**: Permite ao usuário adivinhar a senha. Compara a adivinhação com a senha armazenada e retorna o resultado.
+### 🎯 3. Adivinhar a palavra
 
-### Classes Importantes:
+- Acesse a página **Breaker**
+- Insira o **game_id** criado anteriormente
+- Digite suas tentativas de adivinhação
+- O sistema irá retornar dicas sobre acertos e posições corretas
 
-- **`Guess`**: Classe responsável por gerenciar a lógica de comparação entre a senha e a tentativa do jogador.
-- **`WrongAttempt`**: Exceção personalizada que é levantada quando a tentativa está incorreta.
+---
+
+### 💾 4. Salvar o jogo
+
+- Durante o jogo, clique no botão:
+
+💾 Salvar jogo
+- O estado atual será armazenado no banco de dados
+- É necessário estar logado
+
+---
+
+### 📂 5. Acessar histórico
+
+- Acesse a página **Histórico**
+- Visualize todos os jogos salvos
+- Cada usuário vê apenas seus próprios dados
+
+## Melhorias implementadas
+
+Este projeto foi estendido em relação à versão original, incluindo:
+
+- Containerização completa com Docker
+- Orquestração com Docker Compose
+- Proxy reverso com NGINX
+- Balanceamento de carga
+- Integração com banco PostgreSQL
+- Autenticação com JWT
+- Sistema de salvamento e histórico de jogos
+- Interface frontend conectada à API
 
 ## Licença
 
 Este projeto está licenciado sob a [MIT License](LICENSE).
-
