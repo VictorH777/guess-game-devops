@@ -16,7 +16,7 @@ A aplicação permite criar e adivinhar palavras secretas, além de implementar 
   
 ## Requisitos
 
-- Docker
+- Docker Desktop
 - Docker Compose
 - Git
 
@@ -40,6 +40,11 @@ A aplicação permite criar e adivinhar palavras secretas, além de implementar 
     Abra no navegador:
         http://localhost:8080
 
+4. Parar a aplicação:
+    ```bash
+    ctrl + c
+    docker-compose stop
+    ```
 
 ## Arquitetura do sistema
 
