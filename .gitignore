@@ -7,4 +7,5 @@ db/*
 *.pyo
 bin/
 *.lock
+*.idea
 
